@@ -1,24 +1,28 @@
 import React from 'react';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import Login from '../../components/Auth/Login';
-import Register from '../../components/Auth/Register';
+import Navigation from '../Navigation/Navigation';
+import Register from '../Auth/Register';
+import Login from '../Auth/Login';
 import ContactsPage from '../../pages/ContactsPage';
+import UserMenu from '../Navigation/UserMenu';
 
-const App = () => {
-  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+function App() {
+  const token = useSelector((state) => state.auth.token);
 
   return (
-    <div>
-      {isAuthenticated ? (
-        <ContactsPage />
-      ) : (
-        <>
-          <Login />
-          <Register />
-        </>
-      )}
-    </div>
+    <>
+      <Navigation />
+      <UserMenu />
+      <Routes>
+        <Route path="/register" element={<Register />} />
+        <Route path="/login" element={<Login />} />
+        {/* Dacă utilizatorul este autentificat, îl redirecționezi către /contacts */}
+        <Route path="/contacts" element={token ? <ContactsPage /> : <Navigate to="/login" />} />
+        {/* Restul rutelor */}
+      </Routes>
+    </>
   );
-};
+}
 
 export default App;

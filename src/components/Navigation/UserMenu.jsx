@@ -1,21 +1,23 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { logout } from '../../redux/auth/authSlice';
+import { useNavigate } from 'react-router-dom'; // Importă hook-ul useNavigate
 
 const UserMenu = () => {
-  const user = useSelector(state => state.auth.user);
-  const dispatch = useDispatch();
+  const navigate = useNavigate(); // Inițializează hook-ul
 
   const handleLogout = () => {
-    dispatch(logout());
+    // Logica pentru deconectare
+    localStorage.removeItem('token'); // Elimină token-ul de autentificare
+
+    // Navighează către pagina de login după deconectare
+    navigate('/login'); // Folosește navigate în loc de history.push
   };
 
   return (
     <div>
-      {user && <p>{user.email}</p>}
       <button onClick={handleLogout}>Logout</button>
     </div>
   );
 };
 
 export default UserMenu;
+

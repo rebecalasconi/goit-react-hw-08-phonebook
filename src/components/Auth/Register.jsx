@@ -1,52 +1,79 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { setUser } from '../../redux/auth/authSlice';
+import { useNavigate } from 'react-router-dom';
 
-const Register = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const dispatch = useDispatch();
+function Register() {
+  const [formData, setFormData] = useState({
+    name: '', // Changed from username to name
+    email: '',
+    password: ''
+  });
+  const navigate = useNavigate();
 
-  const handleRegister = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const newUser = { email, password };
-
     try {
-      const response = await fetch('/users.json', {
+      const response = await fetch('https://connections-api.goit.global/users/signup', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(newUser),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData), // Ensure correct field names are used
       });
 
-      if (response.ok) {
-        dispatch(setUser(newUser));
-        alert('Registration successful!');
-      } else {
-        alert('Error during registration.');
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.error('Error during registration:', errorData);
+        throw new Error('Registration failed');
       }
+
+      // Navigate to the login page upon success
+      navigate('/login');
     } catch (error) {
       console.error('Error during registration:', error);
     }
   };
 
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
   return (
-    <form onSubmit={handleRegister}>
-      <input
-        type="email"
-        placeholder="Email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      <input
-        type="password"
-        placeholder="Password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
+    <form onSubmit={handleSubmit}>
+      <label>
+        Name:
+        <input
+          type="text"
+          name="name" // Changed to match the expected payload key
+          value={formData.name}
+          onChange={handleChange}
+        />
+      </label>
+      <label>
+        Email:
+        <input
+          type="email"
+          name="email"
+          value={formData.email}
+          onChange={handleChange}
+        />
+      </label>
+      <label>
+        Password:
+        <input
+          type="password"
+          name="password"
+          value={formData.password}
+          onChange={handleChange}
+        />
+      </label>
       <button type="submit">Register</button>
     </form>
   );
-};
+}
 
 export default Register;

@@ -1,16 +1,35 @@
+// src/components/Navigation/Navigation.jsx
 import React from 'react';
-import { NavLink } from 'react-router-dom';
-import UserMenu from './UserMenu';
+import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { logout } from '../../redux/auth/authSlice';
 
-const Navigation = () => {
+function Navigation() {
+  const dispatch = useDispatch();
+
+  const handleLogout = () => {
+    dispatch(logout());
+    localStorage.removeItem('token');
+  };
+
   return (
     <nav>
-      <NavLink to="/login">Login</NavLink>
-      <NavLink to="/register">Register</NavLink>
-      <NavLink to="/contacts">Contacts</NavLink>
-      <UserMenu />
+      <ul>
+        <li>
+          <Link to="/register">Register</Link>
+        </li>
+        <li>
+          <Link to="/login">Login</Link>
+        </li>
+        <li>
+          <Link to="/contacts">Contacts</Link>
+        </li>
+        <li>
+          <button onClick={handleLogout}>Logout</button>
+        </li>
+      </ul>
     </nav>
   );
-};
+}
 
 export default Navigation;

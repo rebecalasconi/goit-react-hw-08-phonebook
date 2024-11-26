@@ -2,16 +2,20 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const contactsSlice = createSlice({
   name: 'contacts',
-  initialState: [],
+  initialState: {
+    items: [],
+    filter: '',
+  },
   reducers: {
-    setContacts(state, action) {
-      return action.payload;
-    },
     addContact(state, action) {
-      state.push(action.payload);
+      state.items.push(action.payload); // Adaugă contactul în lista de contacte
+    },
+    setFilter(state, action) {
+      state.filter = action.payload;
     },
   },
 });
 
-export const { setContacts, addContact } = contactsSlice.actions;
+export const { addContact, setFilter } = contactsSlice.actions;
 export default contactsSlice.reducer;
+
