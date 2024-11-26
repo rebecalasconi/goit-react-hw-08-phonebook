@@ -12,7 +12,7 @@ const PORT = process.env.PORT || 3001;
 
 // Endpoint pentru utilizatori
 app.get('/users.json', (req, res) => {
-  res.setHeader('Cache-Control', 'no-store'); // Dezactivează cache-ul complet
+  res.setHeader('Cache-Control', 'no-store'); 
   const filePath = path.join(__dirname, 'users.json');
   fs.readFile(filePath, 'utf8', (err, data) => {
     if (err) {

@@ -1,17 +1,18 @@
 import React from 'react';
-import { AppBar, Toolbar, Typography, Button, Box } from '@mui/material';
+import { AppBar, Toolbar, Typography, Button, Box, Switch } from '@mui/material';
 import { Link } from 'react-router-dom';
+import MenuIcon from '@mui/icons-material/Menu'; 
 
-function Navigation() {
+function Navigation({ darkMode, toggleTheme }) { // Deconstruim darkMode și toggleTheme din props
   return (
     <AppBar
       position="sticky"
       sx={{
-        backgroundImage: 'url(https://unsplash.com/photos/a-blue-and-red-object-with-lines-coming-out-of-it-fQVoDe03HoA) no-repeat center center', // Use your chosen image URL here
-        backgroundSize: 'contain', // Make sure the image covers the entire AppBar
-        boxShadow: 'none', // No harsh shadows, keeping it clean
-        borderBottom: '1px solid rgba(255, 255, 255, 0.2)', // Thin border for subtle contrast
-        zIndex: 1000, // Keep it on top
+        backgroundImage: 'url(https://unsplash.com/photos/a-blue-and-red-object-with-lines-coming-out-of-it-fQVoDe03HoA) no-repeat center center',
+        backgroundSize: 'contain',
+        boxShadow: 'none',
+        borderBottom: '1px solid rgba(255, 255, 255, 0.2)',
+        zIndex: 1000,
       }}
     >
       <Toolbar
@@ -20,8 +21,8 @@ function Navigation() {
           justifyContent: 'space-between',
           alignItems: 'center',
           padding: '1rem 2.5rem',
-          backgroundColor: 'rgba(0, 0, 0, 0.5)', // Darken the background slightly for contrast
-          borderRadius: '8px', // Optional: rounded corners for AppBar
+          backgroundColor: 'rgba(0, 0, 0, 0.5)', 
+          borderRadius: '8px',
         }}
       >
         <Box>
@@ -37,6 +38,14 @@ function Navigation() {
           >
             Phonebook App
           </Typography>
+        </Box>
+        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          <Typography variant="body2" sx={{ marginRight: '8px' }}>Dark Mode</Typography>
+          <Switch
+            checked={darkMode} 
+            onChange={toggleTheme} 
+            color="default"
+          />
         </Box>
 
         <Box>

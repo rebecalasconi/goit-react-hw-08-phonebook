@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { addContact } from '../redux/contacts/contactsSlice';
+import { Box, TextField, Button, Typography, FormControl, FormHelperText } from '@mui/material';
 
-const ContactForm = () => {
+const ContactForm = ({ darkMode }) => {
   const dispatch = useDispatch();
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
@@ -40,10 +41,9 @@ const ContactForm = () => {
       }
 
       const newContact = await response.json();
-      console.log('API response:', newContact); // Verificăm răspunsul API-ului
-      dispatch(addContact(newContact)); // Actualizăm contactele în Redux
+      console.log('API response:', newContact);
+      dispatch(addContact(newContact));
 
-      // Resetăm formularul
       setName('');
       setNumber('');
       setError('');
@@ -53,29 +53,104 @@ const ContactForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h3>Add New Contact</h3>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      <label>
-        Name:
-        <input
-          type="text"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          required
-        />
-      </label>
-      <label>
-        Phone Number:
-        <input
-          type="text"
-          value={number}
-          onChange={(e) => setNumber(e.target.value)}
-          required
-        />
-      </label>
-      <button type="submit">Add Contact</button>
-    </form>
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        maxWidth: '500px',
+        margin: '0 auto',
+        padding: '2rem',
+        backgroundColor: darkMode ? 'rgba(0, 0, 30, 0.8)' : 'rgba(255, 255, 255, 0.9)', 
+        borderRadius: '8px',
+        boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
+      }}
+    >
+      <Typography
+        variant="h5"
+        align="center"
+        sx={{
+          marginBottom: '1.5rem',
+          color: darkMode ? '#003366' : '#003366', 
+        }}
+      >
+        Add New Contact
+      </Typography>
+
+      {error && (
+        <Typography variant="body2" color="error" sx={{ marginBottom: '1rem' }}>
+          {error}
+        </Typography>
+      )}
+
+      <form onSubmit={handleSubmit}>
+        <FormControl fullWidth sx={{ marginBottom: '1rem' }} error={Boolean(error)}>
+          <TextField
+            label="Name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            variant="outlined"
+            fullWidth
+            required
+            sx={{
+              marginBottom: '1rem',
+              '& .MuiInputBase-root': {
+                color: darkMode ? 'white' : 'black', 
+              },
+              '& .MuiInputLabel-root': {
+                color: darkMode ? 'white' : '#333', 
+              },
+              '& .MuiOutlinedInput-root': {
+                '& fieldset': {
+                  borderColor: darkMode ? 'white' : 'black', 
+                },
+              },
+            }}
+            placeholder="Name"
+          />
+          <TextField
+            label="Phone Number"
+            value={number}
+            onChange={(e) => setNumber(e.target.value)}
+            variant="outlined"
+            fullWidth
+            required
+            sx={{
+              marginBottom: '1.5rem',
+              '& .MuiInputBase-root': {
+                color: darkMode ? 'white' : 'black', 
+              },
+              '& .MuiInputLabel-root': {
+                color: darkMode ? 'white' : '#333', 
+              },
+              '& .MuiOutlinedInput-root': {
+                '& fieldset': {
+                  borderColor: darkMode ? 'white' : 'black', 
+                },
+              },
+            }}
+            placeholder="Phone Number"
+          />
+          <FormHelperText>{error && error}</FormHelperText>
+        </FormControl>
+
+        <Button
+          type="submit"
+          variant="contained"
+          color="primary"
+          fullWidth
+          sx={{
+            padding: '0.8rem',
+            fontWeight: 'bold',
+            backgroundColor: darkMode ? '#003366' : '#3399cc', // Dark blue for dark mode, light blue for light mode
+            '&:hover': {
+              backgroundColor: darkMode ? '#002244' : '#006bb3', // Slightly darker blue on hover
+            },
+          }}
+        >
+          Add Contact
+        </Button>
+      </form>
+    </Box>
   );
 };
 

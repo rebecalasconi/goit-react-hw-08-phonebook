@@ -7,7 +7,7 @@ module.exports = function (app) {
       target: 'http://localhost:3001',
       changeOrigin: true,
       pathRewrite: {
-        '^/users.json': '/users.json',  // Asigură-te că cererea ajunge corect la serverul Express
+        '^/users.json': '/users.json', 
       },
     })
   );

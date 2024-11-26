@@ -1,15 +1,12 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom'; // Importă hook-ul useNavigate
+import { useNavigate } from 'react-router-dom';
 
 const UserMenu = () => {
-  const navigate = useNavigate(); // Inițializează hook-ul
+  const navigate = useNavigate();
 
   const handleLogout = () => {
-    // Logica pentru deconectare
-    localStorage.removeItem('token'); // Elimină token-ul de autentificare
-
-    // Navighează către pagina de login după deconectare
-    navigate('/login'); // Folosește navigate în loc de history.push
+    localStorage.removeItem('token'); 
+    navigate('/login'); 
   };
 
   return (

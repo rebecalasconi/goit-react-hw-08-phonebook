@@ -7,8 +7,8 @@ function Register() {
 
   const handleRegister = (e) => {
     e.preventDefault();
-    // Logica de înregistrare
-    navigate('/contacts'); // Sau orice altă navigare după înregistrare
+  
+    navigate('/contacts'); 
   };
 
   return (
@@ -44,29 +44,29 @@ function Register() {
             fullWidth
             required
             sx={{
-              marginBottom: '1rem', // Margine între inputuri
+              marginBottom: '1rem', 
               backgroundColor: 'white',
               borderRadius: '4px',
               '& .MuiOutlinedInput-root': {
                 '& fieldset': {
-                  borderColor: '#3399cc', // Culoare graniță
+                  borderColor: '#3399cc',
                 },
                 '&:hover fieldset': {
-                  borderColor: '#006699', // Culoare la hover
+                  borderColor: '#006699', 
                 },
                 '&.Mui-focused fieldset': {
-                  borderColor: '#3399cc', // Culoare când inputul este focusat
+                  borderColor: '#3399cc',
                 },
               },
               '& .MuiInputLabel-root': {
-                color: '#3399cc', // Culoare label
+                color: '#3399cc',
               },
               '& .MuiInputLabel-root.Mui-focused': {
-                color: '#006699', // Culoare label la focus
+                color: '#006699', 
               },
             }}
             InputLabelProps={{
-              shrink: true, // Asigură că label-ul se mută sus ca placeholder
+              shrink: true,
             }}
           />
           <TextField
@@ -76,7 +76,7 @@ function Register() {
             fullWidth
             required
             sx={{
-              marginBottom: '1rem', // Margine între inputuri
+              marginBottom: '1rem', 
               backgroundColor: 'white',
               borderRadius: '4px',
               '& .MuiOutlinedInput-root': {
@@ -98,7 +98,7 @@ function Register() {
               },
             }}
             InputLabelProps={{
-              shrink: true, // Asigură că label-ul se mută sus ca placeholder
+              shrink: true, 
             }}
           />
           <TextField
@@ -108,7 +108,7 @@ function Register() {
             fullWidth
             required
             sx={{
-              marginBottom: '1rem', // Margine între inputuri
+              marginBottom: '1rem', 
               backgroundColor: 'white',
               borderRadius: '4px',
               '& .MuiOutlinedInput-root': {
@@ -130,7 +130,7 @@ function Register() {
               },
             }}
             InputLabelProps={{
-              shrink: true, // Asigură că label-ul se mută sus ca placeholder
+              shrink: true, 
             }}
           />
           <Button

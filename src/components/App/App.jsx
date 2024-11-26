@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { Box, Container, Typography, Switch, CssBaseline, createTheme, ThemeProvider, IconButton } from '@mui/material';
-import { LaptopMac } from '@mui/icons-material';  // Importăm iconița de laptop
+import { Box, Container, Typography, CssBaseline, createTheme, ThemeProvider } from '@mui/material';
 import Navigation from '../Navigation/Navigation';
 import Register from '../Auth/Register';
 import Login from '../Auth/Login';
@@ -10,33 +8,23 @@ import ContactsPage from '../../pages/ContactsPage';
 import UserMenu from '../Navigation/UserMenu';
 
 function App() {
-  const token = useSelector((state) => state.auth.token);
-
-  // State pentru tema (dark sau light)
   const [darkMode, setDarkMode] = useState(false);
 
   // Crearea temei light și dark
   const theme = createTheme({
     palette: {
-      mode: darkMode ? 'dark' : 'light', // Setează tema între dark și light
-      primary: {
-        main: darkMode ? '#90caf9' : '#1976d2',
-      },
-      secondary: {
-        main: darkMode ? '#f48fb1' : '#dc004e',
-      },
+      mode: darkMode ? 'dark' : 'light', 
     },
   });
 
-  // Funcție de schimbare a temei
-  const toggleTheme = () => {
-    setDarkMode(!darkMode);
+  const toggleTheme = (event) => {
+    setDarkMode(event.target.checked);
   };
 
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline /> {/* Aplica stilurile implicite de bază */}
-      
+
       <Box
         sx={{
           marginTop: '15px',
@@ -48,16 +36,8 @@ function App() {
         }}
       >
         {/* Navigation și UserMenu */}
-        <Navigation />
+        <Navigation darkMode={darkMode} toggleTheme={toggleTheme} /> {/* Transmite darkMode și toggleTheme */}
         <UserMenu />
-
-        {/* IconButton pentru schimbarea temei */}
-        <Box sx={{ position: 'absolute', top: '10px', right: '10px' }}>
-          <Typography color="white" sx={{ marginBottom: '8px' }}>Dark Mode</Typography>
-          <IconButton onClick={toggleTheme} sx={{ backgroundColor: '#ffffff', borderRadius: '50%' }}>
-            <LaptopMac sx={{ color: darkMode ? '#90caf9' : '#1976d2' }} /> {/* Afișează iconița de laptop */}
-          </IconButton>
-        </Box>
 
         {/* Conținutul principal */}
         <Container
@@ -77,7 +57,7 @@ function App() {
           <Routes>
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/contacts" element={token ? <ContactsPage /> : <Navigate to="/login" />} />
+            <Route path="/contacts" element={<ContactsPage />} />
           </Routes>
         </Container>
 
@@ -101,4 +81,3 @@ function App() {
 }
 
 export default App;
-

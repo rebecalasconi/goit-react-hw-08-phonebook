@@ -25,11 +25,9 @@ const Login = () => {
 
       if (response.ok) {
         const data = await response.json();
-        // Salvează token-ul în localStorage
         localStorage.setItem('token', data.token);
-        // Salvează utilizatorul în redux sau starea globală
         dispatch(loginSuccess({ user: data.user, token: data.token }));
-        navigate('/contacts'); // Redirecționează la pagina de contacte
+        navigate('/contacts'); 
       } else {
         setError('Login failed. Please check your credentials.');
       }
