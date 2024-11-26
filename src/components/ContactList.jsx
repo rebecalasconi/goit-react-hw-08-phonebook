@@ -1,10 +1,14 @@
-import React from 'react';
+import { useSelector } from 'react-redux';
 
-const ContactList = ({ contacts }) => {
+const ContactList = () => {
+  const contacts = useSelector((state) => state.contacts);
+
+  if (!contacts.length) return <p>No contacts available</p>;
+
   return (
     <ul>
-      {contacts.map(contact => (
-        <li key={contact.id}>
+      {contacts.map((contact, index) => (
+        <li key={index}>
           {contact.name}: {contact.number}
         </li>
       ))}

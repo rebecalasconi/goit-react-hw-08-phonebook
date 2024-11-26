@@ -2,10 +2,13 @@ const { createProxyMiddleware } = require('http-proxy-middleware');
 
 module.exports = function (app) {
   app.use(
-    '/users',
+    '/users.json',
     createProxyMiddleware({
-      target: 'http://localhost:3001', // Serverul local
+      target: 'http://localhost:3001',
       changeOrigin: true,
+      pathRewrite: {
+        '^/users.json': '/users.json',  // Asigură-te că cererea ajunge corect la serverul Express
+      },
     })
   );
 };
