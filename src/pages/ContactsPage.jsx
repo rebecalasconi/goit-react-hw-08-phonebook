@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setFilter } from '../redux/contacts/contactsSlice';
+import { setFilter, removeContact } from '../redux/contacts/contactsSlice';
+import { Button, TextField, List, ListItem, IconButton, Typography } from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
+import LogoutIcon from '@mui/icons-material/Logout';
 import ContactForm from '../components/ContactForm';
 import { useNavigate } from 'react-router-dom';
 
 const ContactsPage = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const contacts = useSelector((state) => state.contacts.items);
   const filter = useSelector((state) => state.contacts.filter);
-  const navigate = useNavigate(); // folosim useNavigate din React Router v6 pentru navigare
-
   const [filteredContacts, setFilteredContacts] = useState(contacts);
 
   useEffect(() => {
@@ -28,36 +30,83 @@ const ContactsPage = () => {
     dispatch(setFilter(e.target.value));
   };
 
-  const handleDelete = (id) => {
-    console.log('Deleting contact with id:', id);
+  const handleDelete = async (id) => {
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) throw new Error('You are not authenticated.');
+
+      const response = await fetch(`https://connections-api.goit.global/contacts/${id}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+      });
+
+      if (!response.ok) throw new Error('Failed to delete contact');
+
+      dispatch(removeContact(id));
+    } catch (err) {
+      console.error(err.message);
+    }
   };
 
   const handleLogout = () => {
-    localStorage.removeItem('token'); // îndepărtăm tokenul
-    navigate('/login'); // navigăm către pagina de login
+    localStorage.removeItem('token');
+    navigate('/login');
   };
 
   return (
-    <div>
-      <input
-        type="text"
-        value={filter}
-        onChange={handleFilterChange}
-        placeholder="Filter contacts"
-      />
+    <div style={{ padding: '2rem', maxWidth: '600px', margin: '0 auto' }}>
+      <Typography variant="h4" align="center" gutterBottom>
+        Contact Manager
+      </Typography>
+      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1rem' }}>
+        <TextField
+          label="Filter contacts"
+          variant="outlined"
+          value={filter}
+          onChange={handleFilterChange}
+          fullWidth
+        />
+        <Button
+          variant="contained"
+          color="primary"
+          startIcon={<LogoutIcon />}
+          onClick={handleLogout}
+          style={{ marginLeft: '1rem' }}
+        >
+          Logout
+        </Button>
+      </div>
       <ContactForm />
-      <button onClick={handleLogout}>Logout</button>
-      <ul>
+      <List>
         {filteredContacts.map((contact) => (
-          <li key={contact.id}>
-            {contact.name} - {contact.email} - {contact.phone}
-            <button onClick={() => handleDelete(contact.id)}>Delete</button>
-          </li>
+          <ListItem
+            key={contact.id}
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              border: '1px solid #ddd',
+              borderRadius: '5px',
+              marginBottom: '0.5rem',
+              padding: '0.5rem 1rem',
+            }}
+          >
+            <Typography variant="body1">
+              {contact.name} - {contact.number}
+            </Typography>
+            <IconButton
+              aria-label="delete"
+              onClick={() => handleDelete(contact.id)}
+              color="error"
+            >
+              <DeleteIcon />
+            </IconButton>
+          </ListItem>
         ))}
-      </ul>
+      </List>
     </div>
   );
 };
 
 export default ContactsPage;
-

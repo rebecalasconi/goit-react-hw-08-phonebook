@@ -5,65 +5,53 @@ import { addContact } from '../redux/contacts/contactsSlice';
 const ContactForm = () => {
   const dispatch = useDispatch();
   const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [phone, setPhone] = useState('');
+  const [number, setNumber] = useState('');
   const [error, setError] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    // Verifică dacă toate câmpurile sunt completate
-    if (!name || !email || !phone) {
-      setError('All fields are required.');
+
+    if (!name || !number) {
+      setError('Both name and number are required.');
       return;
     }
-    
-    const contactData = { 
-      name, 
-      email, 
-      phone, 
-      number: phone  // Adaugă 'number' dacă acesta este necesar
-    };
-    console.log('Sending contact data:', contactData); // Verifică datele trimise
-  
+
+    const contactData = { name, number };
+
     const token = localStorage.getItem('token');
     if (!token) {
-      setError('You are not authenticated. Please log in!');
+      setError('You are not authenticated.');
       return;
     }
-  
+
     try {
       const response = await fetch('https://connections-api.goit.global/contacts', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(contactData),
       });
-  
-      const data = await response.json();
-      console.log('API response:', data);  // Log the full response
-  
+
       if (!response.ok) {
-        console.error('API error details:', data); // Detalii eroare
+        const data = await response.json();
         throw new Error(data.message || 'Failed to add contact');
       }
-  
-      console.log('Contact added successfully:', data);  // Verifică întregul contact adăugat
-  
-      dispatch(addContact(data)); // Salvează contactul în Redux
-  
+
+      const newContact = await response.json();
+      console.log('API response:', newContact); // Verificăm răspunsul API-ului
+      dispatch(addContact(newContact)); // Actualizăm contactele în Redux
+
+      // Resetăm formularul
       setName('');
-      setEmail('');
-      setPhone('');
+      setNumber('');
       setError('');
     } catch (err) {
       setError(err.message);
     }
   };
-  
-  
+
   return (
     <form onSubmit={handleSubmit}>
       <h3>Add New Contact</h3>
@@ -78,20 +66,11 @@ const ContactForm = () => {
         />
       </label>
       <label>
-        Email:
-        <input
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-      </label>
-      <label>
-        Phone:
+        Phone Number:
         <input
           type="text"
-          value={phone}
-          onChange={(e) => setPhone(e.target.value)}
+          value={number}
+          onChange={(e) => setNumber(e.target.value)}
           required
         />
       </label>

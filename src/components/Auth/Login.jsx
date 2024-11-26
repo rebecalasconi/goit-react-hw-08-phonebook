@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { Box, Container, TextField, Button, Typography } from '@mui/material';
 import { loginSuccess } from '../../redux/auth/authSlice';
 
 const Login = () => {
@@ -38,14 +39,120 @@ const Login = () => {
   };
 
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <input type="email" name="email" placeholder="Email" required />
-        <input type="password" name="password" placeholder="Password" required />
-        <button type="submit">Login</button>
-      </form>
-      {error && <p style={{ color: 'red' }}>{error}</p>} {/* Afișează mesajul de eroare */}
-    </div>
+    <Box
+      sx={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        minHeight: '100vh',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        padding: '2rem',
+      }}
+    >
+      <Container
+        sx={{
+          backgroundColor: 'white',
+          padding: '3rem',
+          borderRadius: '8px',
+          width: '100%',
+          maxWidth: '400px',
+          boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+        }}
+      >
+        <Typography variant="h4" sx={{ marginBottom: '2rem', color: 'darkgray', textAlign: 'center' }}>
+          Login
+        </Typography>
+
+        <form onSubmit={handleSubmit}>
+          <TextField
+            label="Email"
+            type="email"
+            name="email"
+            variant="outlined"
+            fullWidth
+            required
+            sx={{
+              marginBottom: '1rem',
+              '& .MuiOutlinedInput-root': {
+                '& fieldset': {
+                  borderColor: '#3399cc',
+                },
+                '&:hover fieldset': {
+                  borderColor: '#006699',
+                },
+                '&.Mui-focused fieldset': {
+                  borderColor: '#3399cc',
+                },
+              },
+              '& .MuiInputLabel-root': {
+                color: '#3399cc',
+              },
+              '& .MuiInputLabel-root.Mui-focused': {
+                color: '#006699',
+              },
+            }}
+          />
+          <TextField
+            label="Password"
+            type="password"
+            name="password"
+            variant="outlined"
+            fullWidth
+            required
+            sx={{
+              marginBottom: '1.5rem',
+              '& .MuiOutlinedInput-root': {
+                '& fieldset': {
+                  borderColor: '#3399cc',
+                },
+                '&:hover fieldset': {
+                  borderColor: '#006699',
+                },
+                '&.Mui-focused fieldset': {
+                  borderColor: '#3399cc',
+                },
+              },
+              '& .MuiInputLabel-root': {
+                color: '#3399cc',
+              },
+              '& .MuiInputLabel-root.Mui-focused': {
+                color: '#006699',
+              },
+            }}
+          />
+          <Button
+            type="submit"
+            variant="contained"
+            fullWidth
+            sx={{
+              backgroundColor: '#3399cc',
+              '&:hover': {
+                backgroundColor: '#006699',
+              },
+              padding: '0.75rem',
+              fontSize: '1rem',
+              borderRadius: '4px',
+            }}
+          >
+            Login
+          </Button>
+        </form>
+
+        {/* Afișează mesajul de eroare, dacă este cazul */}
+        {error && (
+          <Typography
+            variant="body2"
+            sx={{
+              color: 'red',
+              marginTop: '1rem',
+              textAlign: 'center',
+            }}
+          >
+            {error}
+          </Typography>
+        )}
+      </Container>
+    </Box>
   );
 };
 

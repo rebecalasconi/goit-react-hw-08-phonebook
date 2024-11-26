@@ -26,7 +26,7 @@ const Register = () => {
         onChange={e => setPassword(e.target.value)}
         placeholder="Password"
       />
-      <button type="submit">Register</button>
+      <button type="submit" >Register</button>
     </form>
   );
 };
