@@ -4,10 +4,9 @@ import { useNavigate } from 'react-router-dom';
 import { Box, Container, TextField, Button, Typography } from '@mui/material';
 import { loginSuccess } from '../../redux/auth/authSlice';
 import { keyframes } from '@emotion/react';
-import { toast, ToastContainer } from 'react-toastify'; // Import both toast and ToastContainer
-import 'react-toastify/dist/ReactToastify.css'; // Import styles for toast notifications
+import { toast, ToastContainer } from 'react-toastify'; 
+import 'react-toastify/dist/ReactToastify.css'; 
 
-// Keyframes for continuous zoom effect
 const zoomInOut = keyframes`
   0% {
     transform: scale(1);
@@ -44,14 +43,14 @@ const Login = () => {
         localStorage.setItem('token', data.token);
         dispatch(loginSuccess({ user: data.user, token: data.token }));
         navigate('/contacts');
-        toast.success('Login successful!'); // Success notification
+        toast.success('Login successful!');
       } else {
         setError('Login failed. Please check your credentials.');
-        toast.error('Login failed. Please check your credentials.'); // Error notification
+        toast.error('Login failed. Please check your credentials.'); 
       }
     } catch (error) {
       setError('Error during login: ' + error.message);
-      toast.error('Error during login: ' + error.message); // Error notification
+      toast.error('Error during login: ' + error.message);
     }
   };
 
@@ -77,16 +76,16 @@ const Login = () => {
           boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
         }}
       >
-        {/* Add smaller, transparent, dark gray text above the login */}
+      
         <Typography
           variant="body1"
           sx={{
             marginBottom: '2rem',
             color: 'black',
             textAlign: 'center',
-            fontSize: '0.75rem', // smaller font size
+            fontSize: '0.75rem', 
             lineHeight: '1.6',
-            opacity: 0.3, // transparency effect
+            opacity: 0.3,
           }}
         >
           Phonebook App offers seamless contact storage<br /> and retrieval to safeguard your connections. 
@@ -94,7 +93,7 @@ const Login = () => {
           Check it out!
         </Typography>
 
-        {/* Apply zoom effect to the Login title */}
+       
         <Typography
           variant="h4"
           sx={{

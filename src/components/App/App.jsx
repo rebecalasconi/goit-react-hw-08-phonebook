@@ -6,8 +6,8 @@ import Register from '../Auth/Register';
 import Login from '../Auth/Login';
 import styles from './App.module.css';
 import ContactsPage from '../../pages/ContactsPage';
-import { ToastContainer } from 'react-toastify'; // Importă ToastContainer pentru notificări
-import 'react-toastify/dist/ReactToastify.css'; // Stiluri pentru notificări
+import { ToastContainer } from 'react-toastify'; 
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   const [darkMode, setDarkMode] = useState(false);
@@ -17,11 +17,11 @@ function App() {
     palette: {
       mode: darkMode ? 'dark' : 'light',
       background: {
-        default: darkMode ? '#001f3d' : '#ffffff', // Bleumarin foarte închis pentru dark mode
-        paper: darkMode ? '#001f3d' : '#ffffff',   // Același bleumarin pentru fundalurile de tip paper
+        default: darkMode ? '#001f3d' : '#ffffff',
+        paper: darkMode ? '#001f3d' : '#ffffff',  
       },
       primary: {
-        main: darkMode ? '#001f3dff' : '#53cff', // Bleu închis pentru dark, bleu deschis pentru light
+        main: darkMode ? '#001f3dff' : '#53cff', 
       },
     },
   });
@@ -32,7 +32,7 @@ function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <CssBaseline /> {/* Aplica stilurile implicite de bază */}
+      <CssBaseline /> 
 
       <Box
         sx={{
@@ -44,10 +44,10 @@ function App() {
           backgroundSize: 'cover',
         }}
       >
-        {/* Navigation și UserMenu */}
-        <Navigation darkMode={darkMode} toggleTheme={toggleTheme} /> {/* Transmite darkMode și toggleTheme */}
+       
+        <Navigation darkMode={darkMode} toggleTheme={toggleTheme} /> 
 
-        {/* Conținutul principal */}
+        
         <Container
           sx={{
             marginTop: '11px',
@@ -69,7 +69,7 @@ function App() {
           </Routes>
         </Container>
 
-        {/* Footer */}
+       
         <Box
           sx={{
             backgroundColor: 'rgba(0, 0, 0, 0.7)',
@@ -90,7 +90,6 @@ function App() {
         </Box>
       </Box>
 
-      {/* Adăugarea componentului ToastContainer pentru notificări */}
       <ToastContainer position="top-center" autoClose={3000} hideProgressBar={true} />
     </ThemeProvider>
   );

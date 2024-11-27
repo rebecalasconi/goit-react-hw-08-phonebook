@@ -140,9 +140,9 @@ const ContactForm = ({ darkMode }) => {
           sx={{
             padding: '0.8rem',
             fontWeight: 'bold',
-            backgroundColor: darkMode ? '#003366' : '#3399cc', // Dark blue for dark mode, light blue for light mode
+            backgroundColor: darkMode ? '#003366' : '#3399cc',
             '&:hover': {
-              backgroundColor: darkMode ? '#002244' : '#006bb3', // Slightly darker blue on hover
+              backgroundColor: darkMode ? '#002244' : '#006bb3', 
             },
           }}
         >

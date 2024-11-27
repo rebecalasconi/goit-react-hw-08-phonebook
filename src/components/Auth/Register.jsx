@@ -26,14 +26,11 @@ function Register() {
   const handleRegister = (e) => {
     e.preventDefault();
 
-    // Verifică dacă parolele sunt identice
     if (password !== confirmPassword) {
       setError('Passwords do not match');
       return;
     }
-
-    // Restul logicii pentru înregistrare (ex: trimiterea către API sau actualizarea reducer-ului)
-    navigate('/contacts'); // După succes, redirecționează utilizatorul către pagina contacts
+    navigate('/contacts'); 
   };
 
   return (
@@ -58,16 +55,16 @@ function Register() {
           boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
         }}
       >
-        {/* Add smaller, transparent, dark gray text above the login */}
+       
         <Typography
           variant="body1"
           sx={{
             marginBottom: '2rem',
             color: 'black',
             textAlign: 'center',
-            fontSize: '0.75rem', // smaller font size
+            fontSize: '0.75rem', 
             lineHeight: '1.6',
-            opacity: 0.3, // transparency effect
+            opacity: 0.3, 
           }}
         >
           Phonebook App offers seamless contact storage<br /> and retrieval to safeguard your connections. 
@@ -75,7 +72,7 @@ function Register() {
           Check it out!
         </Typography>
 
-        {/* Apply zoom effect to the Login title */}
+       
         <Typography
           variant="h4"
           sx={{
@@ -139,7 +136,6 @@ function Register() {
             }}
           />
           
-          {/* Afișează mesajul de eroare dacă parolele nu se potrivesc */}
           {error && <Typography color="red" sx={{ marginBottom: '1rem' }}>{error}</Typography>}
 
           <Button

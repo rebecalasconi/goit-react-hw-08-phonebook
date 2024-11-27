@@ -2,7 +2,7 @@ import React from 'react';
 import { AppBar, Toolbar, Typography, Button, Box, Switch } from '@mui/material';
 import { Link } from 'react-router-dom';
 
-function Navigation({ darkMode, toggleTheme }) { // Deconstruim darkMode și toggleTheme din props
+function Navigation({ darkMode, toggleTheme }) { 
   return (
     <AppBar
       position="sticky"
