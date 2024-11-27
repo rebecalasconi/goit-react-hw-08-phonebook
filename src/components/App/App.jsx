@@ -42,7 +42,7 @@ function App() {
         {/* Conținutul principal */}
         <Container
           sx={{
-            marginTop: '10px',
+            marginTop: '11px',
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
