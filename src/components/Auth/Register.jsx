@@ -15,7 +15,7 @@ const zoomInOut = keyframes`
   }
 `;
 
-function Register() {
+function Register({ darkMode }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -81,29 +81,28 @@ function Register() {
         alignItems: 'center',
         flexDirection: 'column',
         minHeight: '130vh',
-        backgroundColor: 'rgba(0, 0, 0, 0.2)',
+        backgroundColor: darkMode ? 'rgba(0, 0, 0, 0.8)' : 'rgba(255, 255, 255, 0.8)', // Background for dark mode
         borderRadius: '10px',
       }}
     >
       <Container
         sx={{
-          backgroundColor: 'white',
+          backgroundColor: 'gray', // Background color based on dark mode
           padding: '3rem',
           borderRadius: '8px',
           width: '60%',
           maxWidth: '400px',
-          boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+          boxShadow: darkMode ? '0 4px 8px rgba(255, 255, 255, 0.2)' : '0 4px 8px rgba(0, 0, 0, 0.1)',
         }}
       >
         <Typography
           variant="body1"
           sx={{
             marginBottom: '2rem',
-            color: 'black',
             textAlign: 'center',
             fontSize: '0.75rem',
             lineHeight: '1.6',
-            opacity: 0.3,
+            opacity: 0.6,
           }}
         >
           Phonebook App offers seamless contact storage<br /> and retrieval to safeguard your connections. 
@@ -115,7 +114,7 @@ function Register() {
           variant="h4"
           sx={{
             marginBottom: '2rem',
-            color: 'darkgray',
+            color: darkMode ? '#fff' : 'darkgray', // Title color based on dark mode
             textAlign: 'center',
             animation: `${zoomInOut} 3s infinite ease-in-out`,
           }}
@@ -133,8 +132,13 @@ function Register() {
             onChange={(e) => setEmail(e.target.value)}
             sx={{
               marginBottom: '1rem',
-              backgroundColor: 'white',
-              borderRadius: '4px',
+              backgroundColor: darkMode ? '#444' : '#fff', // Background color based on dark mode
+              '& .MuiInputBase-root': {
+                color: darkMode ? '#fff' : '#000', // Text color based on dark mode
+              },
+              '& .MuiOutlinedInput-root': {
+                borderColor: darkMode ? '#ddd' : '#000', // Border color based on dark mode
+              }
             }}
             InputLabelProps={{
               shrink: true,
@@ -150,34 +154,48 @@ function Register() {
             onChange={handlePasswordChange}
             sx={{
               marginBottom: '1rem',
-              backgroundColor: 'white',
-              borderRadius: '4px',
-            }}
-            InputLabelProps={{
-              shrink: true,
+              backgroundColor: darkMode ? '#444' : '#fff', // Background color based on dark mode
+              '& .MuiInputBase-root': {
+                color: darkMode ? '#fff' : '#000', // Text color based on dark mode
+              },
+              '& .MuiOutlinedInput-root': {
+                borderColor: darkMode ? '#ddd' : '#000', // Border color based on dark mode
+              }
             }}
             helperText={!isPasswordValid && "Password must be at least 8 characters long and contain a special character."}
             error={!isPasswordValid}
           />
-          <TextField
-            label="Confirm Password"
-            type="password"
-            variant="outlined"
-            fullWidth
-            required
-            value={confirmPassword}
-            onChange={handleConfirmPasswordChange}
-            sx={{
-              marginBottom: '1rem',
-              backgroundColor: 'white',
-              borderRadius: '4px',
-            }}
-            InputLabelProps={{
-              shrink: true,
-            }}
-            helperText={!passwordsMatch && "Passwords do not match"}
-            error={!passwordsMatch}
-          />
+        <TextField
+  label="Confirm Password"
+  type="password"
+  variant="outlined"
+  fullWidth
+  required
+  value={confirmPassword}
+  onChange={handleConfirmPasswordChange}
+  sx={{
+    marginBottom: '1rem',
+    backgroundColor: darkMode ? '#444' : '#fff', // Background color for dark mode
+    '& .MuiInputBase-root': {
+      color: darkMode ? '#fff' : '#000', // Text color for input
+    },
+    '& .MuiOutlinedInput-root': {
+      borderColor: darkMode ? '#ddd' : '#000', // Border color for dark mode
+    },
+    '& .MuiInputLabel-root': {
+      color: darkMode ? '#bbb' : '#000', // Label color for dark mode
+    },
+    '& .MuiFormHelperText-root': {
+      color: darkMode ? '#fff' : 'red', // Helper text color for dark mode
+    },
+  }}
+  InputLabelProps={{
+    shrink: true,
+  }}
+  helperText={!passwordsMatch && "Passwords do not match"}
+  error={!passwordsMatch}
+/>
+
 
           {error && <Typography color="red" sx={{ marginBottom: '1rem' }}>{error}</Typography>}
 
@@ -186,15 +204,14 @@ function Register() {
             variant="contained"
             fullWidth
             sx={{
-              backgroundColor: '#3399cc',
               '&:hover': {
-                backgroundColor: '#006699',
+                backgroundColor: isPasswordValid && password === confirmPassword ? '#006699' : (darkMode ? '#555' : '#ccc'), // Hover effect
               },
               padding: '0.8rem',
               fontSize: '1.1rem',
               borderRadius: '4px',
+              color: '#fff',
             }}
-            disabled={!isPasswordValid || password !== confirmPassword}
           >
             Register
           </Button>

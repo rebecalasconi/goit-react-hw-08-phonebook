@@ -57,7 +57,7 @@ const Register = () => {
             padding: '0.8rem',
             fontWeight: 'bold',
             '&:hover': {
-              backgroundColor: '#005f7f',
+              backgroundColor: '##001f3d',
             },
           }}
         >

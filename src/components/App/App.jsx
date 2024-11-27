@@ -32,7 +32,7 @@ function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <CssBaseline />
+      <CssBaseline /> 
 
       <Box
         sx={{
