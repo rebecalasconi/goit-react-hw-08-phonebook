@@ -8,20 +8,20 @@ import styles from './App.module.css';
 import ContactsPage from '../../pages/ContactsPage';
 import { ToastContainer } from 'react-toastify'; 
 import 'react-toastify/dist/ReactToastify.css';
+import PrivateRoute from '../PrivateRoute'; // Importă PrivateRoute
 
 function App() {
   const [darkMode, setDarkMode] = useState(false);
 
-  // Crearea temei light și dark
   const theme = createTheme({
     palette: {
       mode: darkMode ? 'dark' : 'light',
       background: {
         default: darkMode ? '#001f3d' : '#ffffff',
-        paper: darkMode ? '#001f3d' : '#ffffff',  
+        paper: darkMode ? '#001f3d' : '#ffffff',
       },
       primary: {
-        main: darkMode ? '#001f3dff' : '#53cff', 
+        main: darkMode ? '#001f3dff' : '#53cff',
       },
     },
   });
@@ -32,7 +32,7 @@ function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <CssBaseline /> 
+      <CssBaseline />
 
       <Box
         sx={{
@@ -44,10 +44,8 @@ function App() {
           backgroundSize: 'cover',
         }}
       >
-       
-        <Navigation darkMode={darkMode} toggleTheme={toggleTheme} /> 
+        <Navigation darkMode={darkMode} toggleTheme={toggleTheme} />
 
-        
         <Container
           sx={{
             marginTop: '11px',
@@ -57,19 +55,20 @@ function App() {
             padding: '2rem',
             textAlign: 'center',
             color: 'white',
-            background: 'linear-gradient(to bottom right, #003366, #006699, #3399cc, #66ccff)', 
-            backgroundSize: 'contain',
-            backgroundPosition: 'center',
+            background: 'linear-gradient(to bottom right, #003366, #006699, #3399cc, #66ccff)',
           }}
         >
           <Routes>
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/contacts" element={<ContactsPage />} />
+            {/* Protejează ruta pentru /contacts */}
+            <Route
+              path="/contacts"
+              element={<PrivateRoute element={<ContactsPage />} />}
+            />
           </Routes>
         </Container>
 
-       
         <Box
           sx={{
             backgroundColor: 'rgba(0, 0, 0, 0.7)',

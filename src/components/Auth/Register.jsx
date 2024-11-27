@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Box, Container, TextField, Button, Typography } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
 import { keyframes } from '@emotion/react';
+import { useNavigate } from 'react-router-dom';
 
 const zoomInOut = keyframes`
   0% {
@@ -15,14 +15,47 @@ const zoomInOut = keyframes`
   }
 `;
 
-
 function Register() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
+  const [isPasswordValid, setIsPasswordValid] = useState(false);
+  const [passwordsMatch, setPasswordsMatch] = useState(true);
   const navigate = useNavigate();
 
+  // Password validation (minimum 8 characters and at least one special character)
+  const validatePassword = (password) => {
+    const regex = /^(?=.*[!@#$%^&*(),.?":{}|<>]).{8,}$/;
+    return regex.test(password);
+  };
+
+  // Handle password change
+  const handlePasswordChange = (e) => {
+    const value = e.target.value;
+    setPassword(value);
+
+    if (validatePassword(value)) {
+      setIsPasswordValid(true);
+    } else {
+      setIsPasswordValid(false);
+    }
+  };
+
+  // Handle confirm password change and check if passwords match
+  const handleConfirmPasswordChange = (e) => {
+    const value = e.target.value;
+    setConfirmPassword(value);
+
+    // Check if passwords match
+    if (value === password) {
+      setPasswordsMatch(true);
+    } else {
+      setPasswordsMatch(false);
+    }
+  };
+
+  // Handle registration form submission
   const handleRegister = (e) => {
     e.preventDefault();
 
@@ -30,7 +63,14 @@ function Register() {
       setError('Passwords do not match');
       return;
     }
-    navigate('/contacts'); 
+
+    if (!isPasswordValid) {
+      setError('Password must be at least 8 characters long and contain a special character');
+      return;
+    }
+
+    setError('');
+    navigate('/login'); // Redirect to login after successful registration
   };
 
   return (
@@ -45,7 +85,7 @@ function Register() {
         borderRadius: '10px',
       }}
     >
-       <Container
+      <Container
         sx={{
           backgroundColor: 'white',
           padding: '3rem',
@@ -55,16 +95,15 @@ function Register() {
           boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
         }}
       >
-       
         <Typography
           variant="body1"
           sx={{
             marginBottom: '2rem',
             color: 'black',
             textAlign: 'center',
-            fontSize: '0.75rem', 
+            fontSize: '0.75rem',
             lineHeight: '1.6',
-            opacity: 0.3, 
+            opacity: 0.3,
           }}
         >
           Phonebook App offers seamless contact storage<br /> and retrieval to safeguard your connections. 
@@ -72,7 +111,6 @@ function Register() {
           Check it out!
         </Typography>
 
-       
         <Typography
           variant="h4"
           sx={{
@@ -84,6 +122,7 @@ function Register() {
         >
           Register
         </Typography>
+
         <form onSubmit={handleRegister} style={{ width: '100%' }}>
           <TextField
             label="Email"
@@ -93,7 +132,7 @@ function Register() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             sx={{
-              marginBottom: '1rem', 
+              marginBottom: '1rem',
               backgroundColor: 'white',
               borderRadius: '4px',
             }}
@@ -108,15 +147,17 @@ function Register() {
             fullWidth
             required
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={handlePasswordChange}
             sx={{
-              marginBottom: '1rem', 
+              marginBottom: '1rem',
               backgroundColor: 'white',
               borderRadius: '4px',
             }}
             InputLabelProps={{
               shrink: true,
             }}
+            helperText={!isPasswordValid && "Password must be at least 8 characters long and contain a special character."}
+            error={!isPasswordValid}
           />
           <TextField
             label="Confirm Password"
@@ -125,17 +166,19 @@ function Register() {
             fullWidth
             required
             value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
+            onChange={handleConfirmPasswordChange}
             sx={{
-              marginBottom: '1rem', 
+              marginBottom: '1rem',
               backgroundColor: 'white',
               borderRadius: '4px',
             }}
             InputLabelProps={{
-              shrink: true, 
+              shrink: true,
             }}
+            helperText={!passwordsMatch && "Passwords do not match"}
+            error={!passwordsMatch}
           />
-          
+
           {error && <Typography color="red" sx={{ marginBottom: '1rem' }}>{error}</Typography>}
 
           <Button
@@ -151,6 +194,7 @@ function Register() {
               fontSize: '1.1rem',
               borderRadius: '4px',
             }}
+            disabled={!isPasswordValid || password !== confirmPassword}
           >
             Register
           </Button>

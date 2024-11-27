@@ -26,33 +26,44 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+  
     const loginData = {
-      email: e.target.email.value,
-      password: e.target.password.value,
+      email: e.target.email.value.trim(),
+      password: e.target.password.value.trim(),
     };
-
+  
+    if (!loginData.email || !loginData.password) {
+      setError('Both email and password are required.');
+      toast.error('Both email and password are required.');
+      return;
+    }
+  
     try {
       const response = await fetch('https://connections-api.goit.global/users/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(loginData),
       });
-
+  
+      const responseBody = await response.json(); // Log the API response
+      console.log('Login API Response:', responseBody);
+  
       if (response.ok) {
-        const data = await response.json();
-        localStorage.setItem('token', data.token);
-        dispatch(loginSuccess({ user: data.user, token: data.token }));
+        // Store token and user details upon successful login
+        localStorage.setItem('token', responseBody.token);
+        dispatch(loginSuccess({ user: responseBody.user, token: responseBody.token }));
         navigate('/contacts');
         toast.success('Login successful!');
       } else {
-        setError('Login failed. Please check your credentials.');
-        toast.error('Login failed. Please check your credentials.'); 
+        // Display error based on API response
+        setError(`Login failed: ${responseBody.message || 'Incorrect password or email'}`);
+        toast.error(`Login failed: ${responseBody.message || 'Incorrect password or email'}`);
       }
     } catch (error) {
       setError('Error during login: ' + error.message);
       toast.error('Error during login: ' + error.message);
     }
-  };
+  };  
 
   return (
     <Box
@@ -76,7 +87,6 @@ const Login = () => {
           boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
         }}
       >
-      
         <Typography
           variant="body1"
           sx={{
@@ -93,7 +103,6 @@ const Login = () => {
           Check it out!
         </Typography>
 
-       
         <Typography
           variant="h4"
           sx={{
@@ -201,8 +210,6 @@ const Login = () => {
           </Typography>
         )}
       </Container>
-
-      <ToastContainer />
     </Box>
   );
 };
