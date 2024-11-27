@@ -1,7 +1,6 @@
 import React from 'react';
 import { AppBar, Toolbar, Typography, Button, Box, Switch } from '@mui/material';
 import { Link } from 'react-router-dom';
-import MenuIcon from '@mui/icons-material/Menu'; 
 
 function Navigation({ darkMode, toggleTheme }) { // Deconstruim darkMode și toggleTheme din props
   return (

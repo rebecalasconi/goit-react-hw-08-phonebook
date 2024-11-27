@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import { Box, Container, Typography, CssBaseline, createTheme, ThemeProvider } from '@mui/material';
 import Navigation from '../Navigation/Navigation';
 import Register from '../Auth/Register';
 import Login from '../Auth/Login';
 import ContactsPage from '../../pages/ContactsPage';
-import UserMenu from '../Navigation/UserMenu';
 
 function App() {
   const [darkMode, setDarkMode] = useState(false);
@@ -37,7 +36,7 @@ function App() {
       >
         {/* Navigation și UserMenu */}
         <Navigation darkMode={darkMode} toggleTheme={toggleTheme} /> {/* Transmite darkMode și toggleTheme */}
-        <UserMenu />
+        
 
         {/* Conținutul principal */}
         <Container
