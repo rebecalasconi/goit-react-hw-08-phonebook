@@ -4,7 +4,10 @@ import { Box, Container, Typography, CssBaseline, createTheme, ThemeProvider } f
 import Navigation from '../Navigation/Navigation';
 import Register from '../Auth/Register';
 import Login from '../Auth/Login';
+import styles from './App.module.css';
 import ContactsPage from '../../pages/ContactsPage';
+import { ToastContainer } from 'react-toastify'; // Importă ToastContainer pentru notificări
+import 'react-toastify/dist/ReactToastify.css'; // Stiluri pentru notificări
 
 function App() {
   const [darkMode, setDarkMode] = useState(false);
@@ -12,7 +15,14 @@ function App() {
   // Crearea temei light și dark
   const theme = createTheme({
     palette: {
-      mode: darkMode ? 'dark' : 'light', 
+      mode: darkMode ? 'dark' : 'light',
+      background: {
+        default: darkMode ? '#001f3d' : '#ffffff', // Bleumarin foarte închis pentru dark mode
+        paper: darkMode ? '#001f3d' : '#ffffff',   // Același bleumarin pentru fundalurile de tip paper
+      },
+      primary: {
+        main: darkMode ? '#001f3dff' : '#53cff', // Bleu închis pentru dark, bleu deschis pentru light
+      },
     },
   });
 
@@ -36,7 +46,6 @@ function App() {
       >
         {/* Navigation și UserMenu */}
         <Navigation darkMode={darkMode} toggleTheme={toggleTheme} /> {/* Transmite darkMode și toggleTheme */}
-        
 
         {/* Conținutul principal */}
         <Container
@@ -73,8 +82,16 @@ function App() {
           <Typography variant="body2">
             © 2024 Phonebook App | All rights reserved
           </Typography>
+          <Typography variant="body2" sx={{ marginTop: '0.5rem' }}>
+            Made with{' '}
+            <span className={styles.pulseHeart}>❤️</span>{' '}
+            by Rebeca Lasconi
+          </Typography>
         </Box>
       </Box>
+
+      {/* Adăugarea componentului ToastContainer pentru notificări */}
+      <ToastContainer position="top-center" autoClose={3000} hideProgressBar={true} />
     </ThemeProvider>
   );
 }

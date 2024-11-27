@@ -132,7 +132,6 @@ const ContactForm = ({ darkMode }) => {
           />
           <FormHelperText>{error && error}</FormHelperText>
         </FormControl>
-
         <Button
           type="submit"
           variant="contained"

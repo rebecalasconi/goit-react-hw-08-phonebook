@@ -19,20 +19,21 @@ function Navigation({ darkMode, toggleTheme }) { // Deconstruim darkMode și tog
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
-          padding: '1rem 2.5rem',
+          padding: '1.5rem 2.5rem',
           backgroundColor: 'rgba(0, 0, 0, 0.5)', 
-          borderRadius: '8px',
+          height: '100%'
         }}
       >
         <Box>
           <Typography
             variant="h4"
             sx={{
-              fontFamily: 'Poppins, sans-serif',
-              color: 'white',
-              letterSpacing: '1px',
-              fontWeight: '600',
-              textTransform: 'uppercase',
+              fontFamily: 'Pacifico, cursive',  
+              fontSize: '2rem',            
+              color: '#fff',                 
+              fontWeight: '700',
+              textShadow: '2px 2px 4px rgba(0, 0, 0, 0.5)',
+              textAlign: 'center'
             }}
           >
             Phonebook App

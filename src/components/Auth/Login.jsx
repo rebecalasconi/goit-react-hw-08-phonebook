@@ -3,6 +3,22 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Box, Container, TextField, Button, Typography } from '@mui/material';
 import { loginSuccess } from '../../redux/auth/authSlice';
+import { keyframes } from '@emotion/react';
+import { toast, ToastContainer } from 'react-toastify'; // Import both toast and ToastContainer
+import 'react-toastify/dist/ReactToastify.css'; // Import styles for toast notifications
+
+// Keyframes for continuous zoom effect
+const zoomInOut = keyframes`
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+`;
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -27,12 +43,15 @@ const Login = () => {
         const data = await response.json();
         localStorage.setItem('token', data.token);
         dispatch(loginSuccess({ user: data.user, token: data.token }));
-        navigate('/contacts'); 
+        navigate('/contacts');
+        toast.success('Login successful!'); // Success notification
       } else {
         setError('Login failed. Please check your credentials.');
+        toast.error('Login failed. Please check your credentials.'); // Error notification
       }
     } catch (error) {
       setError('Error during login: ' + error.message);
+      toast.error('Error during login: ' + error.message); // Error notification
     }
   };
 
@@ -43,8 +62,9 @@ const Login = () => {
         justifyContent: 'center',
         alignItems: 'center',
         minHeight: '100vh',
-        backgroundColor: 'rgba(0, 0, 0, 0.5)',
-        padding: '2rem',
+        backgroundColor: 'rgba(0, 0, 0, 0.2)',
+        borderRadius: '10px',
+        padding: '5rem',
       }}
     >
       <Container
@@ -52,12 +72,38 @@ const Login = () => {
           backgroundColor: 'white',
           padding: '3rem',
           borderRadius: '8px',
-          width: '100%',
+          width: '80%',
           maxWidth: '400px',
           boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
         }}
       >
-        <Typography variant="h4" sx={{ marginBottom: '2rem', color: 'darkgray', textAlign: 'center' }}>
+        {/* Add smaller, transparent, dark gray text above the login */}
+        <Typography
+          variant="body1"
+          sx={{
+            marginBottom: '2rem',
+            color: 'black',
+            textAlign: 'center',
+            fontSize: '0.75rem', // smaller font size
+            lineHeight: '1.6',
+            opacity: 0.3, // transparency effect
+          }}
+        >
+          Phonebook App offers seamless contact storage<br /> and retrieval to safeguard your connections. 
+          <br />
+          Check it out!
+        </Typography>
+
+        {/* Apply zoom effect to the Login title */}
+        <Typography
+          variant="h4"
+          sx={{
+            marginBottom: '2rem',
+            color: 'darkgray',
+            textAlign: 'center',
+            animation: `${zoomInOut} 3s infinite ease-in-out`,
+          }}
+        >
           Login
         </Typography>
 
@@ -90,6 +136,7 @@ const Login = () => {
               },
             }}
           />
+
           <TextField
             label="Password"
             type="password"
@@ -136,7 +183,6 @@ const Login = () => {
           </Button>
         </form>
 
-        {/* Afișează mesajul de eroare, dacă este cazul */}
         {error && (
           <Typography
             variant="body2"
@@ -144,12 +190,20 @@ const Login = () => {
               color: 'red',
               marginTop: '1rem',
               textAlign: 'center',
+              lineHeight: '1.5',
             }}
           >
-            {error}
+            {error.split('. ').map((part, index) => (
+              <React.Fragment key={index}>
+                {part}
+                {index < 3 && <br />}
+              </React.Fragment>
+            ))}
           </Typography>
         )}
       </Container>
+
+      <ToastContainer />
     </Box>
   );
 };

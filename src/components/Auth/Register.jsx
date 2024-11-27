@@ -1,14 +1,39 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Box, Container, TextField, Button, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import { keyframes } from '@emotion/react';
+
+const zoomInOut = keyframes`
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+`;
+
 
 function Register() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [error, setError] = useState('');
   const navigate = useNavigate();
 
   const handleRegister = (e) => {
     e.preventDefault();
-  
-    navigate('/contacts'); 
+
+    // Verifică dacă parolele sunt identice
+    if (password !== confirmPassword) {
+      setError('Passwords do not match');
+      return;
+    }
+
+    // Restul logicii pentru înregistrare (ex: trimiterea către API sau actualizarea reducer-ului)
+    navigate('/contacts'); // După succes, redirecționează utilizatorul către pagina contacts
   };
 
   return (
@@ -18,52 +43,62 @@ function Register() {
         justifyContent: 'center',
         alignItems: 'center',
         flexDirection: 'column',
-        minHeight: '100vh',
+        minHeight: '130vh',
+        backgroundColor: 'rgba(0, 0, 0, 0.2)',
+        borderRadius: '10px',
       }}
     >
-      <Container
+       <Container
         sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          backgroundColor: 'rgba(0, 0, 0, 0.7)',
+          backgroundColor: 'white',
           padding: '3rem',
           borderRadius: '8px',
-          width: '100%',
+          width: '60%',
           maxWidth: '400px',
+          boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
         }}
       >
-        <Typography variant="h4" color="white" marginBottom="2rem">
+        {/* Add smaller, transparent, dark gray text above the login */}
+        <Typography
+          variant="body1"
+          sx={{
+            marginBottom: '2rem',
+            color: 'black',
+            textAlign: 'center',
+            fontSize: '0.75rem', // smaller font size
+            lineHeight: '1.6',
+            opacity: 0.3, // transparency effect
+          }}
+        >
+          Phonebook App offers seamless contact storage<br /> and retrieval to safeguard your connections. 
+          <br />
+          Check it out!
+        </Typography>
+
+        {/* Apply zoom effect to the Login title */}
+        <Typography
+          variant="h4"
+          sx={{
+            marginBottom: '2rem',
+            color: 'darkgray',
+            textAlign: 'center',
+            animation: `${zoomInOut} 3s infinite ease-in-out`,
+          }}
+        >
           Register
         </Typography>
-        
         <form onSubmit={handleRegister} style={{ width: '100%' }}>
           <TextField
             label="Email"
             variant="outlined"
             fullWidth
             required
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             sx={{
               marginBottom: '1rem', 
               backgroundColor: 'white',
               borderRadius: '4px',
-              '& .MuiOutlinedInput-root': {
-                '& fieldset': {
-                  borderColor: '#3399cc',
-                },
-                '&:hover fieldset': {
-                  borderColor: '#006699', 
-                },
-                '&.Mui-focused fieldset': {
-                  borderColor: '#3399cc',
-                },
-              },
-              '& .MuiInputLabel-root': {
-                color: '#3399cc',
-              },
-              '& .MuiInputLabel-root.Mui-focused': {
-                color: '#006699', 
-              },
             }}
             InputLabelProps={{
               shrink: true,
@@ -75,30 +110,15 @@ function Register() {
             variant="outlined"
             fullWidth
             required
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
             sx={{
               marginBottom: '1rem', 
               backgroundColor: 'white',
               borderRadius: '4px',
-              '& .MuiOutlinedInput-root': {
-                '& fieldset': {
-                  borderColor: '#3399cc',
-                },
-                '&:hover fieldset': {
-                  borderColor: '#006699',
-                },
-                '&.Mui-focused fieldset': {
-                  borderColor: '#3399cc',
-                },
-              },
-              '& .MuiInputLabel-root': {
-                color: '#3399cc',
-              },
-              '& .MuiInputLabel-root.Mui-focused': {
-                color: '#006699',
-              },
             }}
             InputLabelProps={{
-              shrink: true, 
+              shrink: true,
             }}
           />
           <TextField
@@ -107,32 +127,21 @@ function Register() {
             variant="outlined"
             fullWidth
             required
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
             sx={{
               marginBottom: '1rem', 
               backgroundColor: 'white',
               borderRadius: '4px',
-              '& .MuiOutlinedInput-root': {
-                '& fieldset': {
-                  borderColor: '#3399cc',
-                },
-                '&:hover fieldset': {
-                  borderColor: '#006699',
-                },
-                '&.Mui-focused fieldset': {
-                  borderColor: '#3399cc',
-                },
-              },
-              '& .MuiInputLabel-root': {
-                color: '#3399cc',
-              },
-              '& .MuiInputLabel-root.Mui-focused': {
-                color: '#006699',
-              },
             }}
             InputLabelProps={{
               shrink: true, 
             }}
           />
+          
+          {/* Afișează mesajul de eroare dacă parolele nu se potrivesc */}
+          {error && <Typography color="red" sx={{ marginBottom: '1rem' }}>{error}</Typography>}
+
           <Button
             type="submit"
             variant="contained"
